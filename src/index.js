@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import App from "./app/App";
 import "./styles/rubik-fonts.css";
 import "./index.css";
 
-ReactDOM.render(<h1>Blank App</h1>, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
