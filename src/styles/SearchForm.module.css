@@ -1,0 +1,46 @@
+.searchForm {
+  align-items: center;
+  background-image: url(../images/pattern-bg.png);
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+}
+.searchFormFull {
+  justify-content: center;
+  min-height: 100vh;
+}
+.searchFormLocation {
+  min-height: 250px;
+}
+.searchForm div {
+  display: flex;
+}
+.formLabel {
+  color: #fff;
+  display: block;
+  font-size: 2rem;
+  font-weight: 500;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+.formInput {
+  border: 0;
+  border-radius: 9px 0px 0px 9px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  min-width: 400px;
+  outline: 0;
+  padding: 0.75em 1.5em;
+}
+.searchForm button {
+  background-color: #121212;
+  border: 1px solid #121212;
+  border-radius: 0px 9px 9px 0px;
+  padding: 10px 16px;
+}
+.searchForm img {
+  width: 15px;
+}

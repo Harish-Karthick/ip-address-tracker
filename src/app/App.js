@@ -1,32 +1,81 @@
-import React from "react";
-import L from "leaflet";
-import Icon from "../images/icon-location.svg";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import React, { Component } from "react";
+import "../styles/app.css";
+import SearchForm from "../components/SearchForm";
+import MapView from "../components/MapView";
+import InfoCard from "../components/InfoCard";
+const IPIFY_KEY = "at_vuG4DhDdjuqWqkwti8QklucH3TfR7";
 
-function App() {
-  const markerIcon = L.icon({
-    iconUrl: Icon,
-    iconRetinaUrl: Icon,
-    iconAnchor: null,
-    shadowUrl: null,
-    shadowSize: null,
-    shadowAnchor: null,
-    iconSize: [30, 36],
-    className: "leaflet-venue-icon",
-  });
-  return (
-    <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
-      <TileLayer
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-      />
-      <Marker position={[51.505, -0.09]} icon={markerIcon}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
-    </MapContainer>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      locationFound: false,
+      error: "",
+      inputIpAddress: "",
+      locationDetails: {
+        place: "",
+        timeZone: "",
+        isp: "",
+        country: "",
+        latitude: "",
+        longitude: "",
+      },
+    };
+    this.changeIpAddress = this.changeIpAddress.bind(this);
+    this.getLocation = this.getLocation.bind(this);
+  }
+  changeIpAddress(event) {
+    this.setState({ inputIpAddress: event.target.value });
+  }
+  getLocation(event) {
+    event.preventDefault();
+    const ipAddressRegEx = /\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b/;
+    let fetchedLocationDetails = {
+      place: "",
+      timeZone: "",
+      isp: "",
+      country: "",
+      latitue: "",
+      longitude: "",
+    };
+    if (ipAddressRegEx.test(this.state.inputIpAddress)) {
+      const url = `https://geo.ipify.org/api/v1?apiKey=${IPIFY_KEY}&ipAddress=${this.state.inputIpAddress}`;
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          fetchedLocationDetails.isp = data.isp;
+          fetchedLocationDetails.country = data.location.country;
+          fetchedLocationDetails.latitue = data.location.lat;
+          fetchedLocationDetails.longitude = data.location.lng;
+          fetchedLocationDetails.place = data.location.city;
+          fetchedLocationDetails.timeZone = data.location.timezone;
+          console.log(fetchedLocationDetails);
+          this.setState({
+            locationDetails: { ...fetchedLocationDetails },
+            locationFound: true,
+          });
+        });
+    } else {
+      this.setState({
+        error: "Not a valid IPV4 address.",
+        locationFound: false,
+      });
+    }
+  }
+  render() {
+    return (
+      <main>
+        <SearchForm
+          ipValue={this.state.inputIpAddress}
+          handleChange={this.changeIpAddress}
+          handleSubmit={this.getLocation}
+          locationFound={this.state.locationFound}
+        />
+        {this.state.locationFound && <InfoCard />}
+        {this.state.locationFound && <MapView />}
+      </main>
+    );
+  }
 }
 
 export default App;
