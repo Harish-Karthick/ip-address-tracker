@@ -23,7 +23,6 @@
   display: block;
   font-size: 2rem;
   font-weight: 500;
-  margin-top: 2rem;
   margin-bottom: 1rem;
 }
 .formInput {
@@ -43,4 +42,13 @@
 }
 .searchForm img {
   width: 15px;
+}
+@media screen and (max-width: 480px) {
+  .formInput {
+    min-width: unset;
+    width: 80%;
+  }
+  .formLabel {
+    margin-top: 1.5rem;
+  }
 }

@@ -4,7 +4,7 @@ import Icon from "../images/icon-location.svg";
 import classes from "../styles/MapView.module.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
-function MapView() {
+function MapView(props) {
   const markerIcon = L.icon({
     iconUrl: Icon,
     iconRetinaUrl: Icon,
@@ -18,7 +18,7 @@ function MapView() {
   return (
     <MapContainer
       className={classes.leafletContainer}
-      center={[51.505, -0.09]}
+      center={[props.latitude, props.longitude]}
       zoom={13}
       scrollWheelZoom={false}
     >
@@ -26,9 +26,9 @@ function MapView() {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
-      <Marker position={[51.505, -0.09]} icon={markerIcon}>
+      <Marker position={[props.latitude, props.longitude]} icon={markerIcon}>
         <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
+          {props.place},{props.country}
         </Popup>
       </Marker>
     </MapContainer>

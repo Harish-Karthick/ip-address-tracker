@@ -1,25 +1,25 @@
 import React from "react";
 import classes from "../styles/InfoCard.module.css";
 
-function InfoCard() {
+function InfoCard(props) {
   return (
     <div className={classes.infoCardContainer}>
       <div className={classes.infoCard}>
         <div>
           <h4>IP Address</h4>
-          <p>192.212.174.0</p>
+          <p>{props.ipAddress}</p>
         </div>
         <div>
           <h4>Location</h4>
-          <p>Brooklyn, NY 10001</p>
+          <p>{`${props.place}, ${props.country}`}</p>
         </div>
         <div>
           <h4>Timezone</h4>
-          <p>UTC -05:00</p>
+          <p>UTC {props.timeZone}</p>
         </div>
         <div>
           <h4>ISP</h4>
-          <p>Space X Starlink</p>
+          <p>{props.isp}</p>
         </div>
       </div>
     </div>

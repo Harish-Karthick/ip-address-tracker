@@ -35,7 +35,7 @@ class App extends Component {
       timeZone: "",
       isp: "",
       country: "",
-      latitue: "",
+      latitude: "",
       longitude: "",
     };
     if (ipAddressRegEx.test(this.state.inputIpAddress)) {
@@ -45,11 +45,10 @@ class App extends Component {
         .then((data) => {
           fetchedLocationDetails.isp = data.isp;
           fetchedLocationDetails.country = data.location.country;
-          fetchedLocationDetails.latitue = data.location.lat;
+          fetchedLocationDetails.latitude = data.location.lat;
           fetchedLocationDetails.longitude = data.location.lng;
           fetchedLocationDetails.place = data.location.city;
           fetchedLocationDetails.timeZone = data.location.timezone;
-          console.log(fetchedLocationDetails);
           this.setState({
             locationDetails: { ...fetchedLocationDetails },
             locationFound: true,
@@ -63,6 +62,14 @@ class App extends Component {
     }
   }
   render() {
+    const {
+      place,
+      timeZone,
+      latitude,
+      longitude,
+      country,
+      isp,
+    } = this.state.locationDetails;
     return (
       <main>
         <SearchForm
@@ -71,8 +78,23 @@ class App extends Component {
           handleSubmit={this.getLocation}
           locationFound={this.state.locationFound}
         />
-        {this.state.locationFound && <InfoCard />}
-        {this.state.locationFound && <MapView />}
+        {this.state.locationFound && (
+          <InfoCard
+            timeZone={timeZone}
+            place={place}
+            country={country}
+            isp={isp}
+            ipAddress={this.state.inputIpAddress}
+          />
+        )}
+        {this.state.locationFound && (
+          <MapView
+            latitude={latitude}
+            longitude={longitude}
+            place={place}
+            country={country}
+          />
+        )}
       </main>
     );
   }
